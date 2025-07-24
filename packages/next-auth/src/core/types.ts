@@ -18,6 +18,7 @@ import type { CookieSerializeOptions } from "cookie"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 import type { InternalUrl } from "../utils/parse-url"
+import { RequestInternal } from "."
 
 export type Awaitable<T> = T | PromiseLike<T>
 
@@ -467,6 +468,8 @@ export interface PagesOptions {
   verifyRequest: string
   /** If set, new users will be directed here on first sign in */
   newUser: string
+  /** function handler to pre-process the url to be used */
+  urlHandler?: (url: string, req: RequestInternal) => string
 }
 
 export type ISODateString = string

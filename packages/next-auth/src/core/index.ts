@@ -177,12 +177,19 @@ export async function AuthHandler<
           }callbackUrl=${encodeURIComponent(options.callbackUrl)}`
           if (error)
             signinUrl = `${signinUrl}&error=${encodeURIComponent(error)}`
+          if (pages.urlHandler)
+            signinUrl = pages.urlHandler(signinUrl, req)
           return { redirect: signinUrl, cookies }
         }
 
         return render.signin()
       case "signout":
-        if (pages.signOut) return { redirect: pages.signOut, cookies }
+        if (pages.signOut) {
+          let signoutUrl = pages.signOut
+          if (pages.urlHandler)
+            signoutUrl = pages.urlHandler(signoutUrl, req)
+          return { redirect: signoutUrl, cookies }
+        }
 
         return render.signout()
       case "callback":
@@ -202,7 +209,10 @@ export async function AuthHandler<
         break
       case "verify-request":
         if (pages.verifyRequest) {
-          return { redirect: pages.verifyRequest, cookies }
+          let verifyRequestUrl = pages.verifyRequest
+          if (pages.urlHandler)
+            verifyRequestUrl = pages.urlHandler(verifyRequestUrl, req)
+          return { redirect: verifyRequestUrl, cookies }
         }
         return render.verifyRequest()
       case "error":
@@ -221,14 +231,20 @@ export async function AuthHandler<
             "SessionRequired",
           ].includes(error as string)
         ) {
-          return { redirect: `${options.url}/signin?error=${error}`, cookies }
+          let errorUrl = `${options.url}/signin?error=${error}`
+          if (pages.urlHandler)
+            errorUrl = pages.urlHandler(errorUrl, req)
+          return { redirect: errorUrl, cookies }
         }
 
         if (pages.error) {
+          let errorUrl = `${pages.error}${
+            pages.error.includes("?") ? "&" : "?"
+          }error=${error}`
+          if (pages.urlHandler)
+            errorUrl = pages.urlHandler(errorUrl, req)
           return {
-            redirect: `${pages.error}${
-              pages.error.includes("?") ? "&" : "?"
-            }error=${error}`,
+            redirect: errorUrl,
             cookies,
           }
         }
