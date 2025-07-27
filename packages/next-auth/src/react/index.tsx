@@ -37,6 +37,7 @@ import type {
   BuiltInProviderType,
   RedirectableProviderType,
 } from "../providers"
+import { useState } from "react"
 
 export * from "./types"
 
@@ -91,14 +92,16 @@ type UpdateSession = (data?: any) => Promise<Session | null>
 
 export type SessionContextValue<R extends boolean = false> = R extends true
   ?
-      | { update: UpdateSession; data: Session; status: "authenticated" }
-      | { update: UpdateSession; data: null; status: "loading" }
+      | { update: UpdateSession; data: Session; status: "authenticated", refetchPaused: boolean, setRefetchPaused: (paused: boolean) => void }
+      | { update: UpdateSession; data: null; status: "loading", refetchPaused: boolean, setRefetchPaused: (paused: boolean) => void }
   :
-      | { update: UpdateSession; data: Session; status: "authenticated" }
+      | { update: UpdateSession; data: Session; status: "authenticated", refetchPaused: boolean, setRefetchPaused: (paused: boolean) => void }
       | {
           update: UpdateSession
           data: null
           status: "unauthenticated" | "loading"
+          refetchPaused: boolean
+          setRefetchPaused: (paused: boolean) => void
         }
 
 export const SessionContext = React.createContext?.<
@@ -146,6 +149,8 @@ export function useSession<R extends boolean>(
       data: value.data,
       update: value.update,
       status: "loading",
+      refetchPaused: value.refetchPaused,
+      setRefetchPaused: value.setRefetchPaused,
     }
   }
 
@@ -446,8 +451,9 @@ export function SessionProvider(props: SessionProviderProps) {
   }, [props.refetchOnWindowFocus])
 
   const isOnline = useOnline()
+  const [refetchPaused, setRefetchPaused] = useState<boolean>(false)
   // TODO: Flip this behavior in next major version
-  const shouldRefetch = refetchWhenOffline !== false || isOnline
+  const shouldRefetch = !refetchPaused && (refetchWhenOffline !== false || isOnline)
 
   React.useEffect(() => {
     if (refetchInterval && shouldRefetch) {
@@ -484,8 +490,10 @@ export function SessionProvider(props: SessionProviderProps) {
         }
         return newSession
       },
+      refetchPaused,
+      setRefetchPaused,
     }),
-    [session, loading]
+    [session, loading, refetchPaused]
   )
 
   return (
