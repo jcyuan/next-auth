@@ -464,7 +464,7 @@ export function SessionProvider(props: SessionProviderProps) {
       }, refetchInterval * 1000)
       return () => clearInterval(refetchIntervalTimer)
     }
-  }, [refetchInterval, shouldRefetch])
+  }, [refetchInterval, shouldRefetch, refetchPaused])
 
   const value: any = React.useMemo(
     () => ({
