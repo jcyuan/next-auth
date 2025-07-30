@@ -91,6 +91,7 @@ export default async function callback(params: {
 
         try {
           const isAllowed = await callbacks.signIn({
+            headers,
             user: userOrProfile,
             account,
             profile: OAuthProfile,
@@ -238,6 +239,7 @@ export default async function callback(params: {
       // Check if user is allowed to sign in
       try {
         const signInCallbackResponse = await callbacks.signIn({
+          headers,
           user: profile,
           account,
         })
@@ -364,6 +366,7 @@ export default async function callback(params: {
 
     try {
       const isAllowed = await callbacks.signIn({
+        headers,
         user,
         // @ts-expect-error
         account,

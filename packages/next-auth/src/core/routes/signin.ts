@@ -10,8 +10,9 @@ export default async function signin(params: {
   options: InternalOptions<"oauth" | "email">
   query: RequestInternal["query"]
   body: RequestInternal["body"]
+  req: RequestInternal
 }): Promise<ResponseInternal> {
-  const { options, query, body } = params
+  const { options, query, body, req: { headers } } = params
   const { url, callbacks, logger, provider } = options
 
   if (!provider.type) {
@@ -70,6 +71,7 @@ export default async function signin(params: {
     // Check if user is allowed to sign in
     try {
       const signInCallbackResponse = await callbacks.signIn({
+        headers,
         user,
         account,
         email: { verificationRequest: true },

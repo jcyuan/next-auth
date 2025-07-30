@@ -267,6 +267,7 @@ export interface CallbacksOptions<P = Profile, A = Account> {
    * [Documentation](https://next-auth.js.org/configuration/callbacks#sign-in-callback)
    */
   signIn: (params: {
+    headers: Record<string, any> | undefined
     user: User | AdapterUser
     account: A | null
     /**
