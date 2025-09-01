@@ -1,9 +1,12 @@
 {
-  "name": "next-auth",
+  "name": "@jcyuan/next-auth",
   "version": "4.24.11-patched",
-  "description": "Authentication for Next.js",
+  "description": "Authentication for Next.js (Patched version)",
   "homepage": "https://authjs.dev",
-  "repository": "https://github.com/nextauthjs/next-auth.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nextauthjs/next-auth.git"
+  },
   "author": "Iain Collins <me@iaincollins.com>",
   "contributors": [
     "Balázs Orbán <info@balazsorban.com>",
