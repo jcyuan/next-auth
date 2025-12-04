@@ -1,0 +1,24 @@
+name: Publish
+
+on:
+  push:
+    tags: ['*']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install -g npm@latest
+      - run: |
+          cd ./packages/next-auth
+          npm ci
+          npm publish --tag $(node -p "require('./package.json').version")
