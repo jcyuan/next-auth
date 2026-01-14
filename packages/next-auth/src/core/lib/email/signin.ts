@@ -10,7 +10,7 @@ export default async function email(
   identifier: string,
   options: InternalOptions<"email">
 ): Promise<string> {
-  const { url, adapter, provider, callbackUrl, theme } = options
+  const { url, adapter, provider, callbackUrl, theme, locale } = options
   // Generate token
   const token =
     (await provider.generateVerificationToken?.()) ??
@@ -34,6 +34,7 @@ export default async function email(
       url: _url,
       provider,
       theme,
+      locale,
     }),
     // Save in database
     // @ts-expect-error -- adapter is checked to be defined in `init`

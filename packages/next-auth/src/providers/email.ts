@@ -33,7 +33,8 @@ export interface SendVerificationRequestParams {
   expires: Date
   provider: EmailConfig
   token: string
-  theme: Theme
+  theme: Theme,
+  locale?: string
 }
 
 export interface EmailUserConfig {
