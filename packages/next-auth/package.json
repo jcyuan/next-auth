@@ -5,7 +5,7 @@
   "homepage": "https://authjs.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nextauthjs/next-auth.git"
+    "url": "git+https://github.com/jcyuan/next-auth.git"
   },
   "author": "Iain Collins <me@iaincollins.com>",
   "contributors": [

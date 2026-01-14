@@ -3,9 +3,12 @@
   "version": "1.0.5-patched",
   "description": "Prisma adapter for next-auth (Patched version)",
   "homepage": "https://next-auth.js.org",
-  "repository": "https://github.com/nextauthjs/next-auth",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcyuan/next-auth.git"
+  },
   "bugs": {
-    "url": "https://github.com/nextauthjs/next-auth/issues"
+    "url": "https://github.com/jcyuan/next-auth/issues"
   },
   "author": "William Luke",
   "main": "dist/index.js",

@@ -13,12 +13,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.17.0
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install -g npm@latest
-      - run: |
-          cd ./packages/next-auth
-          npm ci
-          npm publish --tag $(node -p "require('./package.json').version")
+          cache: 'pnpm'
+
+      # Ensure npm supports OIDC Trusted Publishing reliably
+      - run: npm i -g npm@11
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm -C packages/next-auth build
+
+      - name: Publish to npm
+        working-directory: packages/next-auth
+        run: |
+          npm config delete //registry.npmjs.org/:_authToken || true
+          npm publish --access public --provenance --tag patched
