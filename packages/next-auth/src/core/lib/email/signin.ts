@@ -8,9 +8,10 @@ import type { InternalOptions } from "../../types"
  */
 export default async function email(
   identifier: string,
-  options: InternalOptions<"email">
+  options: InternalOptions<"email">,
+  locale?: string
 ): Promise<string> {
-  const { url, adapter, provider, callbackUrl, theme, locale } = options
+  const { url, adapter, provider, callbackUrl, theme } = options
   // Generate token
   const token =
     (await provider.generateVerificationToken?.()) ??

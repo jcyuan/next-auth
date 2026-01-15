@@ -612,8 +612,7 @@ export interface InternalOptions<TProviderType = ProviderType> {
   adapter?: NonNullableFields<Adapter>
   callbacks: CallbacksOptions
   cookies: CookiesOptions
-  callbackUrl: string,
-  locale?: string
+  callbackUrl: string
 }
 
 /** @internal */
