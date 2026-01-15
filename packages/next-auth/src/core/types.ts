@@ -430,6 +430,7 @@ export interface EventCallbacks {
    * and an indicator if the user was new to your Adapter.
    */
   signIn: (message: {
+    headers: Record<string, any> | undefined
     user: User
     account: Account | null
     profile?: Profile
